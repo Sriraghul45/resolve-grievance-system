@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Official Grievance Report - Mailam Engineering College</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -12,35 +13,35 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 font-sans p-6 md:p-12 text-gray-900">
+<body class="bg-gray-100 font-sans p-4 md:p-12 text-gray-900">
 
     <div class="max-w-4xl mx-auto space-y-6">
         
         <!-- Print Trigger Bar -->
-        <div class="no-print flex justify-between items-center bg-[#1e293b] text-white px-6 py-4 rounded-xl shadow-md">
+        <div class="no-print flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-[#1e293b] text-white px-5 md:px-6 py-4 rounded-xl shadow-md">
             <div>
                 <p class="text-xs font-mono uppercase tracking-wider text-blue-400">PRINT PREVIEW - A4 Official Document</p>
                 <h2 class="text-lg font-bold">Principal Review Report</h2>
             </div>
-            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl shadow transition flex items-center space-x-2">
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl shadow transition flex items-center space-x-2 whitespace-nowrap">
                 <span>🖨️ Print / Save as PDF</span>
             </button>
         </div>
 
         <!-- Official College Report Document Box -->
-        <div class="bg-white border border-gray-300 print-shadow p-8 md:p-12 rounded-2xl shadow-sm space-y-8">
+        <div class="bg-white border border-gray-300 print-shadow p-6 md:p-12 rounded-2xl shadow-sm space-y-8 overflow-hidden">
             
             <!-- College Header -->
-            <div class="flex justify-between items-start border-b border-gray-200 pb-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start gap-4 border-b border-gray-200 pb-6">
                 <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-slate-900 text-white rounded-xl flex items-center justify-center font-black text-xl">M</div>
+                    <div class="w-12 h-12 bg-slate-900 text-white rounded-xl flex items-center justify-center font-black text-xl shrink-0">M</div>
                     <div>
-                        <h1 class="text-2xl font-black tracking-tight text-gray-900">MAILAM ENGINEERING COLLEGE</h1>
+                        <h1 class="text-xl md:text-2xl font-black tracking-tight text-gray-900">MAILAM ENGINEERING COLLEGE</h1>
                         <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Department of Computer Science and Engineering (CSE)</p>
                         <p class="text-xs text-gray-400">Office of Class Representatives · Student Affairs Office</p>
                     </div>
                 </div>
-                <div class="text-right">
+                <div class="text-left sm:text-right">
                     <p class="text-xs font-mono text-gray-500">Official Institutional Record</p>
                     <p class="text-xs font-mono text-gray-400">For Principal Review</p>
                 </div>
@@ -48,76 +49,78 @@
 
             <!-- Report Title & Description -->
             <div class="space-y-2">
-                <h2 class="text-2xl font-black text-gray-900">Class Representative Grievance Report</h2>
-                <p class="text-sm text-gray-600 font-medium">
+                <h2 class="text-xl md:text-2xl font-black text-gray-900">Class Representative Grievance Report</h2>
+                <p class="text-xs md:text-sm text-gray-600 font-medium">
                     Consolidated official summary of concerns and issues raised via the Resolve platform, submitted for review and action by the Principal.
                 </p>
             </div>
 
             <!-- Summary Statistics Cards -->
-            <div class="grid grid-cols-4 gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200 text-center">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200 text-center">
                 <div>
-                    <p class="text-xs font-bold text-gray-400 uppercase">Total Tickets</p>
-                    <p class="text-xl font-black text-gray-900" th:text="${totalCount}">0</p>
+                    <p class="text-[10px] md:text-xs font-bold text-gray-400 uppercase">Total Tickets</p>
+                    <p class="text-lg md:text-xl font-black text-gray-900" th:text="${totalCount}">0</p>
                 </div>
                 <div>
-                    <p class="text-xs font-bold text-amber-600 uppercase">Pending</p>
-                    <p class="text-xl font-black text-amber-700" th:text="${pendingCount}">0</p>
+                    <p class="text-[10px] md:text-xs font-bold text-amber-600 uppercase">Pending</p>
+                    <p class="text-lg md:text-xl font-black text-amber-700" th:text="${pendingCount}">0</p>
                 </div>
                 <div>
-                    <p class="text-xs font-bold text-blue-600 uppercase">In Progress</p>
-                    <p class="text-xl font-black text-blue-700" th:text="${inProgressCount}">0</p>
+                    <p class="text-[10px] md:text-xs font-bold text-blue-600 uppercase">In Progress</p>
+                    <p class="text-lg md:text-xl font-black text-blue-700" th:text="${inProgressCount}">0</p>
                 </div>
                 <div>
-                    <p class="text-xs font-bold text-emerald-600 uppercase">Resolved</p>
-                    <p class="text-xl font-black text-emerald-700" th:text="${resolvedCount}">0</p>
+                    <p class="text-[10px] md:text-xs font-bold text-emerald-600 uppercase">Resolved</p>
+                    <p class="text-lg md:text-xl font-black text-emerald-700" th:text="${resolvedCount}">0</p>
                 </div>
             </div>
 
-            <!-- Detailed Concerns Table for PDF -->
+            <!-- Detailed Concerns Table for PDF (Responsive Container) -->
             <div class="border border-gray-200 rounded-xl overflow-hidden">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-gray-100 text-gray-700 text-[10px] font-mono tracking-widest uppercase border-b border-gray-200">
-                            <th class="p-3 pl-4">#</th>
-                            <th class="p-3">CR Name</th>
-                            <th class="p-3">Dept / Year</th>
-                            <th class="p-3">Category</th>
-                            <th class="p-3">Description</th>
-                            <th class="p-3 pr-4">Admin Response & Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 text-xs">
-                        <tr th:each="rep, iterStat : ${reports}" class="hover:bg-gray-50">
-                            <td class="p-3 pl-4 font-mono font-bold text-gray-500" th:text="${iterStat.count}">1</td>
-                            <td class="p-3 font-bold text-gray-900" th:text="${rep.cr != null ? rep.cr.name : 'N/A'}">CR Name</td>
-                            <td class="p-3 text-gray-600" th:text="(${rep.cr != null ? rep.cr.department : 'CSE'}) + ' · Yr ' + (${rep.cr != null ? rep.cr.studyYear : '3'})">CSE · Yr 3</td>
-                            <td class="p-3 font-semibold text-gray-800" th:text="${rep.priority}">Lab</td>
-                            <td class="p-3 text-gray-700 max-w-xs leading-relaxed" th:text="${rep.description}">Description text...</td>
-                            <td class="p-3 pr-4 space-y-1">
-                                <span class="font-bold uppercase tracking-wider text-[9px] px-2 py-0.5 rounded"
-                                      th:classappend="${rep.status == 'Resolved' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}"
-                                      th:text="${rep.status}">Pending</span>
-                                <p class="text-gray-500 italic" th:text="${rep.adminResponse != null ? rep.adminResponse : 'Awaiting review'}">Response</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[700px]">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 text-[10px] font-mono tracking-widest uppercase border-b border-gray-200">
+                                <th class="p-3 pl-4">#</th>
+                                <th class="p-3">CR Name</th>
+                                <th class="p-3">Dept / Year</th>
+                                <th class="p-3">Category</th>
+                                <th class="p-3">Description</th>
+                                <th class="p-3 pr-4">Admin Response & Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 text-xs">
+                            <tr th:each="rep, iterStat : ${reports}" class="hover:bg-gray-50">
+                                <td class="p-3 pl-4 font-mono font-bold text-gray-500 align-top" th:text="${iterStat.count}">1</td>
+                                <td class="p-3 font-bold text-gray-900 align-top whitespace-nowrap" th:text="${rep.cr != null ? rep.cr.name : 'N/A'}">CR Name</td>
+                                <td class="p-3 text-gray-600 align-top whitespace-nowrap" th:text="(${rep.cr != null ? rep.cr.department : 'CSE'}) + ' · Yr ' + (${rep.cr != null ? rep.cr.studyYear : '3'})">CSE · Yr 3</td>
+                                <td class="p-3 font-semibold text-gray-800 align-top whitespace-nowrap" th:text="${rep.priority}">Lab</td>
+                                <td class="p-3 text-gray-700 max-w-xs leading-relaxed align-top break-words" th:text="${rep.description}">Description text...</td>
+                                <td class="p-3 pr-4 space-y-1 align-top">
+                                    <span class="font-bold uppercase tracking-wider text-[9px] px-2 py-0.5 rounded inline-block whitespace-nowrap"
+                                          th:classappend="${rep.status == 'Resolved' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}"
+                                          th:text="${rep.status}">Pending</span>
+                                    <p class="text-gray-500 italic break-words" th:text="${rep.adminResponse != null ? rep.adminResponse : 'Awaiting review'}">Response</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Signatures Section with HOD & Principal -->
-            <div class="grid grid-cols-3 pt-12 text-center text-xs text-gray-700">
-                <div class="space-y-8">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 pt-8 md:pt-12 text-center text-xs text-gray-700">
+                <div class="space-y-6 md:space-y-8">
                     <div class="border-t border-gray-400 w-36 mx-auto pt-2"></div>
                     <p class="font-bold">Prepared by</p>
                     <p class="text-[10px] text-gray-500">Student Affairs Office</p>
                 </div>
-                <div class="space-y-8">
+                <div class="space-y-6 md:space-y-8">
                     <div class="border-t border-gray-400 w-36 mx-auto pt-2"></div>
                     <p class="font-bold">HOD / CSE</p>
                     <p class="text-[10px] text-gray-500">Dr. Priyaradhikadevi</p>
                 </div>
-                <div class="space-y-8">
+                <div class="space-y-6 md:space-y-8">
                     <div class="border-t border-gray-400 w-36 mx-auto pt-2"></div>
                     <p class="font-bold">Approved by</p>
                     <p class="text-[10px] text-gray-500">Dr. Rajappan (Principal)</p>

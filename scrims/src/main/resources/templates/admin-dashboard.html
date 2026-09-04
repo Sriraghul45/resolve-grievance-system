@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Resolve</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -13,13 +14,13 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 bg-grid-pattern font-sans min-h-screen p-6 md:p-10 text-gray-900">
+<body class="bg-gray-100 bg-grid-pattern font-sans min-h-screen p-4 md:p-10 text-gray-900">
 
     <div class="max-w-6xl mx-auto space-y-6">
         
         <!-- Top Navigation Bar -->
-        <div class="flex justify-between items-center bg-[#1e293b] text-white px-5 py-3 rounded-xl shadow-md">
-            <div class="flex items-center space-x-2 md:space-x-3 text-xs font-mono tracking-wider overflow-x-auto">
+        <div class="flex justify-between items-center bg-[#1e293b] text-white px-4 md:px-5 py-3 rounded-xl shadow-md overflow-x-auto">
+            <div class="flex items-center space-x-2 md:space-x-3 text-xs font-mono tracking-wider">
                 <span class="bg-blue-600 px-2.5 py-1 rounded font-bold text-white whitespace-nowrap">PROTOTYPE</span>
                 <span class="opacity-75 whitespace-nowrap">05 · Admin Login</span>
                 <span class="bg-blue-700 px-2.5 py-1 rounded font-bold text-white whitespace-nowrap">06 · Admin Dashboard</span>
@@ -27,19 +28,19 @@
         </div>
 
         <!-- Header & Action Buttons -->
-        <div class="flex justify-between items-end">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>
                 <p class="text-xs font-bold tracking-wider text-gray-500 uppercase">ADMIN CONSOLE</p>
-                <h1 class="text-3xl font-black text-gray-900 tracking-tight">Open concerns</h1>
+                <h1 class="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Open concerns</h1>
             </div>
             
-            <div class="flex items-center space-x-3">
-                <a href="/admin/export/pdf" class="bg-slate-900 hover:bg-black text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl shadow transition">
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="/admin/export/pdf" class="bg-slate-900 hover:bg-black text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl shadow transition whitespace-nowrap">
                     Download PDF Report
                 </a>
                 
                 <form th:action="@{/logout}" method="post" class="m-0">
-                    <button type="submit" class="border border-red-300 text-red-700 hover:bg-red-50 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm transition">
+                    <button type="submit" class="border border-red-300 text-red-700 hover:bg-red-50 text-xs font-semibold px-4 py-2 rounded-xl shadow-sm transition whitespace-nowrap">
                         Log out
                     </button>
                 </form>
@@ -48,75 +49,77 @@
 
         <!-- Empty State -->
         <div th:if="${reports.empty}" class="bg-white border border-gray-300 p-8 rounded-2xl text-center shadow-sm">
-            <p class="text-gray-500 font-medium">No concerns reported yet.</p>
+            <p class="text-gray-500 font-medium text-sm">No concerns reported yet.</p>
         </div>
 
-        <!-- Concerns Table -->
+        <!-- Concerns Table (Responsive Container) -->
         <div class="bg-white border border-gray-300 rounded-2xl shadow-sm overflow-hidden" th:unless="${reports.empty}">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-slate-900 text-white text-xs font-mono tracking-widest uppercase">
-                        <th class="p-4 pl-6">CR</th>
-                        <th class="p-4">DEPT / YEAR</th>
-                        <th class="p-4">CATEGORY</th>
-                        <th class="p-4 pr-6">DESCRIPTION & STATUS UPDATE</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    <tr th:each="rep : ${reports}" class="hover:bg-gray-50 transition">
-                        
-                        <td class="p-4 pl-6 font-bold text-gray-900 align-top">
-                            <span th:text="${rep.cr != null ? rep.cr.name : 'Unknown'}">CR Name</span>
-                            <div class="text-xs font-normal text-gray-500" th:text="'SEC ' + (${rep.cr != null ? rep.cr.section : '-'})">SEC D</div>
-                        </td>
-
-                        <td class="p-4 text-sm text-gray-700 font-medium align-top">
-                            <span th:text="${rep.cr != null ? rep.cr.department : '-'}">CSE</span>
-                            <div class="text-xs text-gray-400" th:text="'Year ' + (${rep.cr != null ? rep.cr.studyYear : '-'})">Year 3</div>
-                        </td>
-
-                        <td class="p-4 align-top">
-                            <span class="bg-blue-50 text-blue-800 border border-blue-200 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider" th:text="${rep.priority}">
-                                LAB
-                            </span>
-                        </td>
-
-                        <td class="p-4 pr-6 space-y-3 align-top">
-                            <p class="text-gray-900 text-sm font-medium leading-relaxed" th:text="${rep.description}">Description text...</p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[700px]">
+                    <thead>
+                        <tr class="bg-slate-900 text-white text-xs font-mono tracking-widest uppercase">
+                            <th class="p-4 pl-6">CR</th>
+                            <th class="p-4">DEPT / YEAR</th>
+                            <th class="p-4">CATEGORY</th>
+                            <th class="p-4 pr-6">DESCRIPTION & STATUS UPDATE</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr th:each="rep : ${reports}" class="hover:bg-gray-50 transition">
                             
-                            <!-- If Already Resolved: Show locked state -->
-                            <div th:if="${rep.status == 'Resolved'}" class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex justify-between items-center">
-                                <div>
-                                    <span class="text-xs font-bold text-emerald-800 uppercase">Status: Resolved</span>
-                                    <p class="text-xs text-emerald-700 mt-0.5" th:text="'Response: ' + ${rep.adminResponse}">Response</p>
-                                </div>
-                                <span class="bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">Locked</span>
-                            </div>
+                            <td class="p-4 pl-6 font-bold text-gray-900 align-top">
+                                <span th:text="${rep.cr != null ? rep.cr.name : 'Unknown'}">CR Name</span>
+                                <div class="text-xs font-normal text-gray-500" th:text="'SEC ' + (${rep.cr != null ? rep.cr.section : '-'})">SEC D</div>
+                            </td>
 
-                            <!-- If Pending / In Progress: Show interactive update form -->
-                            <form th:unless="${rep.status == 'Resolved'}" th:action="@{/admin/respond}" method="post" class="space-y-2 pt-2 border-t border-gray-100">
-                                <input type="hidden" name="id" th:value="${rep.id}"/>
+                            <td class="p-4 text-sm text-gray-700 font-medium align-top">
+                                <span th:text="${rep.cr != null ? rep.cr.department : '-'}">CSE</span>
+                                <div class="text-xs text-gray-400" th:text="'Year ' + (${rep.cr != null ? rep.cr.studyYear : '-'})">Year 3</div>
+                            </td>
+
+                            <td class="p-4 align-top">
+                                <span class="bg-blue-50 text-blue-800 border border-blue-200 text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider whitespace-nowrap" th:text="${rep.priority}">
+                                    LAB
+                                </span>
+                            </td>
+
+                            <td class="p-4 pr-6 space-y-3 align-top">
+                                <p class="text-gray-900 text-sm font-medium leading-relaxed break-words" th:text="${rep.description}">Description text...</p>
                                 
-                                <div class="flex space-x-2">
-                                    <input type="text" name="adminResponse" th:value="${rep.adminResponse}" placeholder="Type response here..." required
-                                           class="flex-1 bg-gray-50 border border-gray-300 rounded-lg px-3 py-1.5 text-xs text-gray-800 focus:outline-none focus:ring-1 focus:ring-slate-900">
-                                    
-                                    <select name="status" class="bg-gray-50 border border-gray-300 rounded-lg px-2 py-1.5 text-xs font-semibold text-gray-800">
-                                        <option value="Pending" th:selected="${rep.status == 'Pending'}">Pending</option>
-                                        <option value="In Progress" th:selected="${rep.status == 'In Progress'}">In Progress</option>
-                                        <option value="Resolved" th:selected="${rep.status == 'Resolved'}">Resolved</option>
-                                    </select>
-                                    
-                                    <button type="submit" class="bg-slate-900 hover:bg-black text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow transition">
-                                        Update
-                                    </button>
+                                <!-- If Already Resolved: Show locked state -->
+                                <div th:if="${rep.status == 'Resolved'}" class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                                    <div>
+                                        <span class="text-xs font-bold text-emerald-800 uppercase">Status: Resolved</span>
+                                        <p class="text-xs text-emerald-700 mt-0.5 break-words" th:text="'Response: ' + ${rep.adminResponse}">Response</p>
+                                    </div>
+                                    <span class="bg-emerald-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider whitespace-nowrap">Locked</span>
                                 </div>
-                            </form>
-                        </td>
 
-                    </tr>
-                </tbody>
-            </table>
+                                <!-- If Pending / In Progress: Show interactive update form -->
+                                <form th:unless="${rep.status == 'Resolved'}" th:action="@{/admin/respond}" method="post" class="space-y-2 pt-2 border-t border-gray-100">
+                                    <input type="hidden" name="id" th:value="${rep.id}"/>
+                                    
+                                    <div class="flex flex-col sm:flex-row gap-2">
+                                        <input type="text" name="adminResponse" th:value="${rep.adminResponse}" placeholder="Type response here..." required
+                                               class="flex-1 bg-gray-50 border border-gray-300 rounded-lg px-3 py-1.5 text-xs text-gray-800 focus:outline-none focus:ring-1 focus:ring-slate-900">
+                                        
+                                        <select name="status" class="bg-gray-50 border border-gray-300 rounded-lg px-2 py-1.5 text-xs font-semibold text-gray-800">
+                                            <option value="Pending" th:selected="${rep.status == 'Pending'}">Pending</option>
+                                            <option value="In Progress" th:selected="${rep.status == 'In Progress'}">In Progress</option>
+                                            <option value="Resolved" th:selected="${rep.status == 'Resolved'}">Resolved</option>
+                                        </select>
+                                        
+                                        <button type="submit" class="bg-slate-900 hover:bg-black text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow transition whitespace-nowrap">
+                                            Update
+                                        </button>
+                                    </div>
+                                </form>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>

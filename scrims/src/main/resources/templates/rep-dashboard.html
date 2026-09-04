@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CR Dashboard - Resolve</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -13,13 +14,13 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 bg-grid-pattern font-sans min-h-screen p-6 md:p-10 text-gray-900">
+<body class="bg-gray-100 bg-grid-pattern font-sans min-h-screen p-4 md:p-10 text-gray-900">
 
     <div class="max-w-4xl mx-auto space-y-6">
         
         <!-- Top Navigation Bar -->
-        <div class="flex justify-between items-center bg-[#1e293b] text-white px-5 py-3 rounded-xl shadow-md">
-            <div class="flex items-center space-x-2 md:space-x-3 text-xs font-mono tracking-wider overflow-x-auto">
+        <div class="flex justify-between items-center bg-[#1e293b] text-white px-4 md:px-5 py-3 rounded-xl shadow-md overflow-x-auto">
+            <div class="flex items-center space-x-2 md:space-x-3 text-xs font-mono tracking-wider">
                 <span class="bg-blue-600 px-2.5 py-1 rounded font-bold text-white whitespace-nowrap">PROTOTYPE</span>
                 <span class="opacity-75 whitespace-nowrap">01 · Login</span>
                 <span class="bg-blue-700 px-2.5 py-1 rounded font-bold text-white whitespace-nowrap">02 · CR Dashboard</span>
@@ -27,14 +28,14 @@
         </div>
 
         <!-- Dashboard Header & Logout Button -->
-        <div class="space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <p class="text-xs font-bold tracking-wider text-gray-700 uppercase">CR Dashboard</p>
-                <h1 class="text-3xl font-black text-gray-900 tracking-tight">Welcome, <span th:text="${cr.name}">Sri Raghul K</span></h1>
+                <h1 class="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Welcome, <span th:text="${cr.name}">Sri Raghul K</span></h1>
             </div>
             
             <form th:action="@{/logout}" method="post">
-                <button type="submit" class="border border-red-300 text-red-700 hover:bg-red-50 text-xs font-semibold px-4 py-1.5 rounded-lg shadow-sm transition">Log out</button>
+                <button type="submit" class="border border-red-300 text-red-700 hover:bg-red-50 text-xs font-semibold px-4 py-2 rounded-lg shadow-sm transition">Log out</button>
             </form>
         </div>
 
@@ -47,9 +48,9 @@
             
             <p th:if="${updatedCount == 0}" class="text-gray-600 text-sm">No new notifications at the moment.</p>
             
-            <div th:if="${updatedCount > 0}" class="mt-2 text-sm text-emerald-800 bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex justify-between items-center">
+            <div th:if="${updatedCount > 0}" class="mt-2 text-sm text-emerald-800 bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                 <p class="font-semibold" th:text="'Admin has updated ' + ${updatedCount} + ' of your raised concerns. Check responses in View Status.'">You have updates!</p>
-                <a href="/report/status" class="bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-emerald-800 transition">View Status</a>
+                <a href="/report/status" class="bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-emerald-800 transition whitespace-nowrap">View Status</a>
             </div>
         </div>
 
@@ -93,7 +94,7 @@
                 
                 <div class="space-y-3">
                     <a href="/report/new" class="flex items-center p-4 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl transition group">
-                        <div class="bg-slate-900 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold mr-4 shadow-sm">+</div>
+                        <div class="bg-slate-900 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold mr-4 shadow-sm shrink-0">+</div>
                         <div>
                             <p class="font-bold text-gray-900 text-sm">Raise a concern</p>
                             <p class="text-xs text-gray-600">File a new class issue for admin review</p>
@@ -101,7 +102,7 @@
                     </a>
 
                     <a href="/report/status" class="flex items-center p-4 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-xl transition">
-                        <div class="bg-slate-900 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold mr-4 shadow-sm">🛡️</div>
+                        <div class="bg-slate-900 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold mr-4 shadow-sm shrink-0">🛡️</div>
                         <div>
                             <p class="font-bold text-gray-900 text-sm">View status</p>
                             <p class="text-xs text-gray-600">Track responses on your submitted reports</p>
