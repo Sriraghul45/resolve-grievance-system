@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Report status - Resolve</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 bg-grid-pattern font-sans min-h-screen p-6 md:p-10 text-gray-900">
+
+    <div class="max-w-4xl mx-auto space-y-6">
+        
+        <!-- Top Navigation Bar matching prototype -->
+        <div class="flex justify-between items-center bg-[#1e293b] text-white px-5 py-3 rounded-xl shadow-md">
+            <div class="flex items-center space-x-2 md:space-x-3 text-xs font-mono tracking-wider overflow-x-auto">
+                <span class="bg-blue-600 px-2.5 py-1 rounded font-bold text-white whitespace-nowrap">PROTOTYPE</span>
+                <span class="opacity-75 whitespace-nowrap">01 · Login</span>
+                <span class="opacity-75 whitespace-nowrap">02 · CR Dashboard</span>
+                <span class="bg-blue-700 px-2.5 py-1 rounded font-bold text-white whitespace-nowrap">04 · View Status</span>
+            </div>
+        </div>
+
+        <!-- Header & Back to Dashboard Button -->
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="text-xs font-bold tracking-wider text-gray-500 uppercase">Your Reports</p>
+                <h1 class="text-3xl font-black text-gray-900 tracking-tight">Report status</h1>
+            </div>
+            <div>
+                <a href="/rep-dashboard" class="border border-gray-300 bg-white hover:bg-gray-50 text-gray-800 text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl shadow-sm transition">
+                    Back to dashboard
+                </a>
+            </div>
+        </div>
+
+        <!-- If no reports submitted yet -->
+        <div th:if="${reports.empty}" class="bg-white border border-gray-300 p-8 rounded-2xl text-center shadow-sm">
+            <p class="text-gray-500 font-medium">No concerns raised yet. Click "Raise a concern" from dashboard.</p>
+        </div>
+
+        <!-- Reports Cards List matching prototype design -->
+        <div class="space-y-6" th:unless="${reports.empty}">
+            <div th:each="rep : ${reports}" class="bg-white border border-gray-300 rounded-2xl p-6 shadow-sm relative space-y-4">
+                
+                <!-- Top Badge Row (Category & Status) -->
+                <div class="flex justify-between items-center">
+                    <span class="bg-blue-50 text-blue-800 border border-blue-200 text-xs font-extrabold px-3 py-1 rounded-lg uppercase tracking-wider" th:text="${rep.priority}">
+                        LAB FACILITY
+                    </span>
+                    
+                    <!-- Dynamic Status Badge -->
+                    <span th:if="${rep.status == 'Pending'}" class="bg-amber-50 text-amber-800 border border-amber-300 text-xs font-extrabold px-3 py-1 rounded-lg uppercase tracking-wider">
+                        PENDING
+                    </span>
+                    <span th:if="${rep.status == 'Resolved'}" class="bg-emerald-50 text-emerald-800 border border-emerald-300 text-xs font-extrabold px-3 py-1 rounded-lg uppercase tracking-wider">
+                        RESOLVED
+                    </span>
+                </div>
+
+                <!-- Issue Description -->
+                <div>
+                    <p class="text-gray-900 font-bold text-lg leading-relaxed" th:text="${rep.description}">
+                        System units are not booting in Lab 2
+                    </p>
+                </div>
+
+                <hr class="border-dashed border-gray-200 my-2">
+
+                <!-- Admin Response Section -->
+                <div class="space-y-1.5">
+                    <p class="text-[10px] font-extrabold tracking-widest text-gray-400 uppercase">Admin Response</p>
+                    
+                    <!-- Response Box -->
+                    <div class="p-4 rounded-xl border text-sm font-medium" 
+                         th:classappend="${rep.adminResponse != null ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-gray-50 border-gray-200 text-gray-500 italic'}">
+                        <span th:text="${rep.adminResponse != null ? rep.adminResponse : 'Waiting for admin response...'}">
+                            Waiting for admin response...
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

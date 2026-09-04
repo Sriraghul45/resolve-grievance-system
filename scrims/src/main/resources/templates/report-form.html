@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Raise a Concern - Resolve</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+        }
+    </style>
+    <script>
+        function validateForm(event) {
+            const desc = document.getElementById("description").value.trim();
+            const errorMsg = document.getElementById("error-msg");
+            
+            if (desc.length < 50) {
+                event.preventDefault(); // Stop form submission
+                errorMsg.classList.remove("hidden");
+                errorMsg.innerText = "Description must be at least 50 characters long! (Current: " + desc.length + "/50)";
+                return false;
+            }
+            errorMsg.classList.add("hidden");
+            return true;
+        }
+    </script>
+</head>
+<body class="bg-gray-100 bg-grid-pattern font-sans min-h-screen p-6 md:p-10 text-gray-900">
+
+    <div class="max-w-3xl mx-auto space-y-6">
+        
+        <!-- Top Navigation Bar matching prototype -->
+        <div class="flex justify-between items-center bg-[#1e293b] text-white px-5 py-3 rounded-xl shadow-md">
+            <div class="flex items-center space-x-2 md:space-x-3 text-xs font-mono tracking-wider overflow-x-auto">
+                <span class="bg-blue-600 px-2.5 py-1 rounded font-bold text-white whitespace-nowrap">PROTOTYPE</span>
+                <span class="opacity-75 whitespace-nowrap">01 · Login</span>
+                <span class="opacity-75 whitespace-nowrap">02 · CR Dashboard</span>
+                <span class="bg-blue-700 px-2.5 py-1 rounded font-bold text-white whitespace-nowrap">03 · Raise Concern</span>
+            </div>
+        </div>
+
+        <!-- Back to Dashboard Link -->
+        <div>
+            <a href="/rep-dashboard" class="text-sm font-semibold text-gray-600 hover:text-gray-950 transition">← Back to dashboard</a>
+        </div>
+
+        <!-- Main Form Card matching Prototype images 2 & 3 -->
+        <div class="bg-white border border-gray-300 p-8 rounded-2xl shadow-sm space-y-6">
+            
+            <!-- Header Section -->
+            <div>
+                <div class="flex items-center space-x-2 mb-2">
+                    <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+                    <span class="text-xs font-bold tracking-widest text-gray-400 uppercase">New Ticket</span>
+                </div>
+                <h1 class="text-3xl font-black text-gray-900 tracking-tight mb-2">Raise a new concern</h1>
+                <p class="text-sm text-gray-500 font-medium" th:text="'This will be logged against Year ' + ${cr.studyYear} + ' · ' + ${cr.department} + ' · Section ' + ${cr.section} + ' and sent to admin.'">
+                    This will be logged against Year 3 · CSE · Section D and sent to admin.
+                </p>
+            </div>
+
+            <!-- Error message container for 50 chars validation -->
+            <div id="error-msg" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm font-medium"></div>
+
+            <!-- Form -->
+            <form th:action="@{/report/save}" method="post" onsubmit="return validateForm(event)" class="space-y-6">
+                
+                <!-- Issue Category -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold tracking-wider text-gray-600 uppercase">Issue category</label>
+                    <select name="priority" class="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-3 text-sm font-semibold text-gray-800 focus:outline-none focus:ring-2 focus:ring-slate-900">
+                        <option value="Lab facility">Lab facility</option>
+                        <option value="Classroom infrastructure">Classroom infrastructure</option>
+                        <option value="Network / Wi-Fi">Network / Wi-Fi</option>
+                        <option value="Exam / Timetable">Exam / Timetable</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Clear Explanation / Description -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold tracking-wider text-gray-600 uppercase">Clear explanation</label>
+                    <textarea id="description" name="description" rows="5" required 
+                        placeholder="Briefly explain the issue — what's wrong, where, and since when."
+                        class="w-full bg-gray-50 border border-gray-300 rounded-xl p-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-slate-900"></textarea>
+                    <p class="text-xs text-gray-400 font-medium">Be specific — this helps admin resolve it faster (Minimum 50 characters required).</p>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit" class="w-full bg-[#1e293b] hover:bg-black text-white font-bold py-3.5 rounded-xl shadow transition text-sm">
+                        Submit report
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Cancel link -->
+            <div class="text-center pt-2">
+                <a href="/rep-dashboard" class="text-xs font-bold tracking-wider text-gray-400 hover:text-gray-700 uppercase">Cancel & back to dashboard</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
